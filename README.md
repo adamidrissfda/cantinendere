@@ -3,7 +3,7 @@
 
 > **Projet de fin de module - Ingénierie des Applications Web (INF336)**
 ## Apercu de l'interface(Mobile)
-<p aling="center">
+<p align="center">
  <img src=" ./images/apercu.png" 
  width="320" title="Interface Mobile Cantine de Ngaoundere">
 </p>
