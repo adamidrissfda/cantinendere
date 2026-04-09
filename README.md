@@ -1,6 +1,6 @@
-# 🍴 Cantine Universitaire de Ngaoundéré
+#  Cantine Universitaire de Ngaoundéré
 
-# 🍴 Cantine Universitaire de Ngaoundéré
+#  Cantine Universitaire de Ngaoundéré
 
 ![L3IN](https://img.shields.io/badge/Niveau-L3IN-blue)
 ![Course](https://img.shields.io/badge/Code-INF336-green)
@@ -13,15 +13,15 @@
 ## 🎓 Contexte Académique
 Ce projet est réalisé dans le cadre de l'unité d'enseignement **Ingénierie des Applications Web (INF336)** à l'Université de Ngaoundéré.
 
-* **Encadrement :** Pr. Paul DAYANG & Samuel KOTVA
+* **Encadrement : :**  :## **Pr. Paul DAYANG & Samuel KOTVA**
 * **Objectif :** Concevoir une interface moderne, performante et totalement responsive.
 
 ---
 
-## 🌍 Accès au Projet
-🚀 **Lien direct :** [https://adamidrissfda.github.io/cantinendere/](https://adamidrissfda.github.io/cantinendere/)
+##  Accès au Projet
+ **Lien direct :** [https://adamidrissfda.github.io/cantinendere/](https://adamidrissfda.github.io/cantinendere/)
 
-## 📸 Aperçu de l'interface
+##  Aperçu de l'interface
 <p align="center">
   <img src="images/apercu.png" width="320" alt="Interface Mobile Cantine">
 </p>
