@@ -1,4 +1,4 @@
-#  Cantine Universitaire de Ngaoundéré
+# 🍴 Cantine Universitaire de Ngaoundéré
 
 #  Cantine Universitaire de Ngaoundéré
 
@@ -45,3 +45,6 @@ Lors du développement, j'ai optimisé la gestion des chemins relatifs pour l'af
 
 ---
 **👤 Auteur : Adam Idriss** © 2026 - Université de Ngaoundéré
+
+**👤 Contact: +237689828...
+
