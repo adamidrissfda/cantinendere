@@ -1,6 +1,7 @@
 # 🍴 Cantine Universitaire de Ngaoundéré
 
-# 🍴 Cantine Universitaire de Ngaoundéré
+#![haricot-lait](https://github.com/user-attachments/assets/b1dfd284-3d78-4b17-b0bf-afb6a0a33375)
+ 🍴 Cantine Universitaire de Ngaoundéré
 
 > **Projet de fin de module - Ingénierie des Applications Web (INF336)**
 
