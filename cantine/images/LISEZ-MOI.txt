@@ -1,0 +1,49 @@
+=====================================================
+  DOSSIER IMAGES — Cantine Universitaire de Ngaoundéré
+=====================================================
+
+Placez vos images dans ce dossier en respectant exactement
+les noms de fichiers ci-dessous.
+
+Formats acceptés : .jpg  .jpeg  .png  .webp
+
+── LOGO & ARRIÈRE-PLAN ──────────────────────────────
+  logo.png          -> Logo officiel de l'université
+  hero-bg.jpg       -> Photo arrière-plan du hero (campus, salle)
+
+── PLATS CHAUDS ─────────────────────────────────────
+  poulet-roti.jpg
+  haricot-lait.jpg
+  haricot-sel.jpg
+  omelette.jpg
+  riz-sauce.jpg
+  poisson-braise.jpg
+  ndole.jpg
+  spaghetti.jpg
+  soupe-legumes.jpg
+
+── BOISSONS ─────────────────────────────────────────
+  loubeline.jpg
+  cafe-noir.jpg
+  lait-chaud.jpg
+  the.jpg
+  eau-minerale.jpg
+  bissap.jpg
+  jus-gingembre.jpg
+
+── SNACKS ───────────────────────────────────────────
+  beignet.jpg
+  pain-beurre.jpg
+  sandwich.jpg
+  plantain-frit.jpg
+  galette-mais.jpg
+
+── DESSERTS ─────────────────────────────────────────
+  yaourt.jpg
+  fruits-frais.jpg
+  bouillie-mais.jpg
+
+=====================================================
+Si une image est absente, une icone emoji s'affiche
+automatiquement — aucune erreur visible.
+=====================================================
