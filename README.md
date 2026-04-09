@@ -22,11 +22,11 @@ L'application est déployée et consultable en ligne ici :
 
 ---
 
-## ✨ Fonctionnalités implémentées
-* 🍱 **Catalogue de Menu :** Affichage dynamique des plats locaux (Poulet rôti, Haricot au lait, etc.).
-* 🏷️ **Système de Filtrage :** Tri par catégories (Plats chauds, Boissons, Snacks, Desserts).
-* 📱 **Mobile First :** Interface entièrement responsive adaptée aux smartphones des étudiants.
-* ⚡ **Performance :** Optimisation du chargement des ressources et des images.
+##  Fonctionnalités implémentées
+*  **Catalogue de Menu :** Affichage dynamique des plats locaux (Poulet rôti, Haricot au lait, etc.).
+*  **Système de Filtrage :** Tri par catégories (Plats chauds, Boissons, Snacks, Desserts).
+*  **Mobile First :** Interface entièrement responsive adaptée aux smartphones des étudiants.
+*  **Performance :** Optimisation du chargement des ressources et des images.
 
 ---
 
