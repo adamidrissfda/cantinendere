@@ -5,7 +5,7 @@
 ## Apercu de l'interface(Mobile)
 <p align="center">
  <img src=" ./images/apercu.png" 
- width="320" title="Interface Mobile Cantine de Ngaoundere">
+ width="320" alt="Interface Mobile Cantine de Ngaoundere">
 </p>
 ## 🎓 Contexte Académique
 Ce projet a été réalisé dans le cadre de l'unité d'enseignement **Ingénierie des Applications Web (INF336)** à l'Université de Ngaoundéré.
