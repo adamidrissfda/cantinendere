@@ -1,4 +1,3 @@
-# cantinendere
 # 🍴 Cantine Universitaire de Ngaoundéré
 
 # 🍴 Cantine Universitaire de Ngaoundéré
