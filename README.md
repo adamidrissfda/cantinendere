@@ -13,7 +13,7 @@
 ## 🎓 Contexte Académique
 Ce projet est réalisé dans le cadre de l'unité d'enseignement **Ingénierie des Applications Web (INF336)** à l'Université de Ngaoundéré.
 
-* **Encadrement : :**  :## **Pr. Paul DAYANG & Samuel KOTVA**
+* **Encadrement : :**   **Pr. Paul DAYANG & Samuel KOTVA**
 * **Objectif :** Concevoir une interface moderne, performante et totalement responsive.
 
 ---
@@ -28,12 +28,12 @@ Ce projet est réalisé dans le cadre de l'unité d'enseignement **Ingénierie d
 
 ---
 
-## 🛠️ Stack Technique & Compétences
+## Stack Technique & Compétences
 * **Front-End :** HTML5, CSS3 (Flexbox/Grid), JavaScript (DOM dynamique).
 * **DevOps :** Git/GitHub pour la gestion de versions et GitHub Pages pour le déploiement.
 * **UI/UX :** Design "Mobile First" pour s'adapter aux usages des étudiants.
 
-## 🚀 Roadmap (Évolutions futures)
+## Roadmap (Évolutions futures)
 - [ ] Système de pré-commande avec QR Code.
 - [ ] Notifications en temps réel via WhatsApp API.
 - [ ] Mode sombre (Dark Mode) pour économiser la batterie.
