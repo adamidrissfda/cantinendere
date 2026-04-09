@@ -2,13 +2,11 @@
  🍴 Cantine Universitaire de Ngaoundéré
 
 > **Projet de fin de module - Ingénierie des Applications Web (INF336)**
-
-#!![Uploading apercu.png…]()
-
-
-
-
-
+## Apercu de l'interface(Mobile)
+<p aling="center">
+ <img src=" ./images/apercu.png" 
+ width="320" title="Interface Mobile Cantine de Ngaoundere">
+</p>
 ## 🎓 Contexte Académique
 Ce projet a été réalisé dans le cadre de l'unité d'enseignement **Ingénierie des Applications Web (INF336)** à l'Université de Ngaoundéré.
 
