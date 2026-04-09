@@ -9,7 +9,6 @@
 </p>
 ##  Contexte Académique
 Ce projet a été réalisé dans le cadre de l'unité d'enseignement **Ingénierie des Applications Web (INF336)** à l'Université de Ngaoundéré.
-</p>
 
 * **Niveau :** Licence 3 Informatique (L3IN)
 * **Encadrement :** Pr. Paul DAYANG & Samuel KOTVA
@@ -48,6 +47,8 @@ Ce projet a permis de mettre en pratique les compétences suivantes :
 ## 👤 Auteur
 **Adam Idriss** Étudiant en Licence 3 Informatique (L3IN) 
 Université de Ngaoundéré.
+**contact: +23768980000**
+
 
 ---
 © 2026 - Projet INF336 - Université de Ngaoundéré.
