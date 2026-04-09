@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cantine de l'Université de Ngaoundéré — Commandez vos repas en ligne">
+  <meta name="theme-color" content="#0C7A56">
+  <title>Cantine — Université de Ngaoundéré</title>
+
+  <!--
+    FAVICON : icône affichée dans l'onglet du navigateur
+    Remplacez par images/logo.png si vous avez le logo
+  -->
+  <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+
+  <!--
+    FEUILLE DE STYLES PRINCIPALE
+    Un seul fichier CSS contenant tous les styles
+  -->
+  <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+<!--
+  ══════════════════════════════════════════════════════════════
+  BARRE DE NAVIGATION PRINCIPALE
+  Reste collée en haut lors du défilement (position: sticky)
+  ══════════════════════════════════════════════════════════════
+-->
+<nav class="navbar" role="navigation" aria-label="Navigation principale">
+  <div class="navbar__interieur">
+
+    <!-- Marque / Logo -->
+    <div class="navbar__marque"
+         onclick="Routeur.allerVers('menu')"
+         role="button" tabindex="0"
+         aria-label="Retour à l'accueil"
+         onkeydown="if(event.key==='Enter') Routeur.allerVers('menu')">
+
+      <!-- Zone du logo université -->
+      <div class="navbar__logo">
+        <!--
+          IMAGE DU LOGO : placez votre logo dans images/logo.png
+          Si absent, l'emoji ci-dessous s'affiche automatiquement
+        -->
+        <img id="imgLogoNav"
+             src="images/logo.png"
+             alt="Logo Université de Ngaoundéré"
+             style="display:none"
+             onerror="this.style.display='none'">
+        <span id="emojiLogoNav" class="navbar__logo-emoji">🎓</span>
+      </div>
+
+      <!-- Texte de la marque -->
+      <div>
+        <div class="navbar__titre">Cantine Universitaire
+          <small class="navbar__sous-titre">Université de Ngaoundéré — Cameroun</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions à droite de la navbar -->
+    <div class="navbar__actions">
+      <!-- Nom de l'utilisateur connecté (masqué par défaut) -->
+      <span class="navbar__utilisateur" id="infoUtilisateur"></span>
+
+      <!-- Bouton connexion (visible pour tous) -->
+      <button class="btn-navbar"
+              onclick="Routeur.allerVers('connexion')"
+              aria-label="Se connecter">
+        👤 Connexion
+      </button>
+
+      <!-- Bouton admin (VISIBLE UNIQUEMENT POUR LE PERSONNEL) -->
+      <button class="btn-navbar btn-navbar--plein"
+              id="btnNavAdmin"
+              onclick="Routeur.allerVers('admin')"
+              style="display:none"
+              aria-label="Tableau de bord administrateur">
+        ⚙️ Admin
+      </button>
+    </div>
+
+  </div>
+</nav>
+
+<!--
+  ══════════════════════════════════════════════════════════════
+  ZONE DES NOTIFICATIONS TOAST
+  Les messages apparaissent ici temporairement (en haut à droite)
+  ══════════════════════════════════════════════════════════════
+-->
+<div class="zone-toast" id="zoneToast" role="alert" aria-live="polite"></div>
+
+<!--
+  ══════════════════════════════════════════════════════════════
+  BOUTON PANIER FLOTTANT (FAB)
+  Affiché en bas à droite quand le panier contient des articles
+  ══════════════════════════════════════════════════════════════
+-->
+<button class="bouton-panier-flottant"
+        id="boutonPanier"
+        onclick="Routeur.allerVers('commande')"
+        style="display:none"
+        aria-label="Voir ma commande">
+  🛒 Ma commande
+  <span class="bouton-panier-flottant__badge" id="badgePanier">0</span>
+</button>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     PAGE 1 : MENU — Affichage de tous les plats de la cantine
+     ══════════════════════════════════════════════════════════════ -->
+<main id="page-menu" class="page" role="main" aria-label="Menu de la cantine">
+
+  <!--
+    SECTION HÉRO
+    L'image de fond est chargée via JS depuis images/hero-bg.jpg
+    Si absente, le dégradé vert s'applique automatiquement
+  -->
+  <section class="hero" id="sectionHero" aria-label="Bienvenue">
+    <div class="hero__contenu">
+      <div class="hero__etiquette">🍽️ Cantine Universitaire</div>
+      <h1>Bienvenue à la Cantine<br>de Ngaoundéré</h1>
+      <p class="hero__description">
+        Commandez vos repas en ligne — paiement simple et sécurisé,
+        récupérez votre repas en quelques minutes.
+      </p>
+      <div class="hero__statistiques">
+        <div class="hero__stat"><strong>25+</strong><span>Plats au menu</span></div>
+        <div class="hero__stat"><strong>4</strong><span>Modes de paiement</span></div>
+        <div class="hero__stat"><strong>~15 min</strong><span>Temps de service</span></div>
+        <div class="hero__stat"><strong>100%</strong><span>Sécurisé</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANDE DE FILTRAGE PAR CATÉGORIE -->
+  <nav class="barre-categories" aria-label="Filtrer les plats par catégorie">
+    <div class="barre-categories__interieur" id="zoneCategories" role="tablist">
+      <!-- Boutons injectés par PageMenu.afficherCategories() -->
+    </div>
+  </nav>
+
+  <!-- GRILLE DES PLATS DU MENU -->
+  <div class="grille-menu"
+       id="grilleMenu"
+       role="list"
+       aria-label="Liste des plats disponibles">
+    <!-- Cartes de plats injectées par PageMenu.afficherGrille() -->
+  </div>
+
+  <!-- PIED DE PAGE -->
+  <footer class="pied-page" role="contentinfo">
+    <strong>Cantine Universitaire de Ngaoundéré</strong>
+    Lundi – Vendredi : 7h00 – 21h00 &nbsp;|&nbsp; Samedi : 8h00 – 16h00<br>
+    © 2025 Université de Ngaoundéré — Tous droits réservés
+  </footer>
+
+</main>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     PAGE 2 : COMMANDE — Récapitulatif et confirmation
+     ══════════════════════════════════════════════════════════════ -->
+<div id="page-commande" class="page" aria-label="Votre commande">
+  <div class="zone-commande">
+
+    <!-- Titre avec bouton retour -->
+    <h2 class="titre-commande">
+      <button onclick="Routeur.allerVers('menu')"
+              class="btn btn--fantome btn--icone non-imprimable"
+              style="flex-shrink:0"
+              aria-label="Retour au menu">←</button>
+      Ma commande
+    </h2>
+
+    <!--
+      BLOC 1 : ARTICLES DU PANIER
+      Liste les plats sélectionnés avec contrôle de quantité
+    -->
+    <div class="carte" style="margin-bottom:14px">
+      <div class="carte__entete">
+        <span class="carte__entete-icone">🛒</span>
+        <span class="carte__entete-titre">Articles sélectionnés</span>
+      </div>
+      <div class="carte__corps" style="padding-top:6px;padding-bottom:6px">
+        <div id="listeArticlesPanier">
+          <!-- Injecté par PageCommande.afficherArticlesPanier() -->
+        </div>
+      </div>
+    </div>
+
+    <!--
+      BLOC 2 : ACCOMPAGNEMENT
+      Choisir un accompagnement optionnel (beignet, pain...)
+    -->
+    <div class="carte" style="margin-bottom:14px">
+      <div class="carte__entete">
+        <span class="carte__entete-icone">🍞</span>
+        <span class="carte__entete-titre">Accompagnement (facultatif)</span>
+      </div>
+      <div class="carte__corps">
+        <div id="zoneAccompagnements"
+             style="display:flex;flex-wrap:wrap;gap:8px">
+          <!-- Puces injectées par PageCommande.afficherAccompagnements() -->
+        </div>
+      </div>
+    </div>
+
+    <!--
+      BLOC 3 : IDENTIFICATION DE L'ÉTUDIANT / CLIENT
+      Trois modes au choix :
+        - Anonyme     : aucune information requise
+        - Matricule   : reconnaissance dans la base étudiants
+        - Visiteur    : nom et téléphone libres
+    -->
+    <div class="carte" style="margin-bottom:14px">
+      <div class="carte__entete">
+        <span class="carte__entete-icone">👤</span>
+        <span class="carte__entete-titre">Votre identification (facultative)</span>
+      </div>
+      <div class="carte__corps">
+
+        <!-- Onglets de sélection du mode d'identification -->
+        <div class="onglets" style="margin-bottom:16px" role="tablist">
+          <button class="onglet onglet-identification actif"
+                  data-mode="anonyme"
+                  onclick="PageCommande.definirModeIdentification('anonyme')"
+                  role="tab" aria-selected="true">
+            👻 Anonyme
+          </button>
+          <button class="onglet onglet-identification"
+                  data-mode="matricule"
+                  onclick="PageCommande.definirModeIdentification('matricule')"
+                  role="tab" aria-selected="false">
+            🎓 Matricule
+          </button>
+          <button class="onglet onglet-identification"
+                  data-mode="visiteur"
+                  onclick="PageCommande.definirModeIdentification('visiteur')"
+                  role="tab" aria-selected="false">
+            🙋 Visiteur
+          </button>
+        </div>
+
+        <!-- Mode ANONYME : aucune saisie requise -->
+        <div id="secteurAnonyme">
+          <div class="alerte alerte--info">
+            ℹ️ Vous commandez sans identification.
+            Votre bon de commande vous sera remis à la caisse.
+          </div>
+        </div>
+
+        <!-- Mode MATRICULE : identification étudiant -->
+        <div id="secteurMatricule" style="display:none">
+          <div class="groupe-champ">
+            <label class="etiquette" for="champMatricule">
+              Matricule universitaire
+            </label>
+            <input type="text"
+                   id="champMatricule"
+                   class="champ-saisie"
+                   placeholder="Exemple : 20G03456"
+                   maxlength="10"
+                   autocomplete="off"
+                   oninput="
+                     this.value = this.value.toUpperCase();
+                     RechercheEtudiant.afficherResultat(this.value);
+                   ">
+            <small class="aide-champ">
+              Votre matricule figure sur votre carte étudiante
+            </small>
+          </div>
+          <!-- Résultat de la recherche (affiché dynamiquement) -->
+          <div id="resultatMatricule" class="alerte" style="display:none" aria-live="polite"></div>
+          <div class="alerte alerte--info" style="margin-top:10px">
+            ℹ️ Matricule non trouvé ? Votre commande reste valide —
+            vous serez traité comme étudiant non vérifié.
+          </div>
+        </div>
+
+        <!-- Mode VISITEUR : nom et téléphone libres -->
+        <div id="secteurVisiteur" style="display:none">
+          <div class="grille-2-colonnes">
+            <div class="groupe-champ">
+              <label class="etiquette" for="champNomVisiteur">Nom complet *</label>
+              <input type="text"
+                     id="champNomVisiteur"
+                     class="champ-saisie"
+                     placeholder="Prénom et Nom"
+                     autocomplete="name">
+            </div>
+            <div class="groupe-champ">
+              <label class="etiquette" for="champTelephoneVisiteur">Téléphone</label>
+              <input type="tel"
+                     id="champTelephoneVisiteur"
+                     class="champ-saisie"
+                     placeholder="6X XXX XXX"
+                     autocomplete="tel">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!--
+      BLOC 4 : MODE DE PAIEMENT
+      Espèces / Orange Money / MTN MoMo / PayPal-Carte
+    -->
+    <div class="carte" style="margin-bottom:14px">
+      <div class="carte__entete">
+        <span class="carte__entete-icone">💳</span>
+        <span class="carte__entete-titre">Mode de paiement</span>
+      </div>
+      <div class="carte__corps">
+
+        <!-- Grille des cartes de paiement -->
+        <div class="grille-paiement"
+             id="zoneModesPaiement"
+             role="radiogroup"
+             aria-label="Sélectionnez votre mode de paiement">
+          <!-- Injecté par PageCommande.afficherModesPaiement() -->
+        </div>
+
+        <!--
+          Champ téléphone mobile (affiché seulement pour Orange / MTN)
+          Géré par PageCommande.choisirPaiement()
+        -->
+        <div id="secteurTelephoneMobile" style="display:none;margin-top:14px">
+          <div class="groupe-champ">
+            <label class="etiquette" for="champTelephoneMobile">
+              Numéro de téléphone mobile *
+            </label>
+            <input type="tel"
+                   id="champTelephoneMobile"
+                   class="champ-saisie"
+                   placeholder="Exemple : 690 123 456"
+                   autocomplete="tel">
+            <small class="aide-champ">
+              Numéro enregistré sur votre compte mobile money
+            </small>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!--
+      BLOC 5 : RÉCAPITULATIF DES MONTANTS
+      Sous-total, accompagnement, total final
+    -->
+    <div class="recapitulatif-montants" id="zoneRecapitulatif">
+      <!-- Injecté par PageCommande.rafraichirTotal() -->
+    </div>
+
+    <!-- Bouton de confirmation finale -->
+    <button id="btnConfirmerCommande"
+            class="btn btn--principal btn--grand btn--pleine-largeur"
+            onclick="PageCommande.confirmerCommande()">
+      ✅ Confirmer et payer
+    </button>
+
+    <!-- Bouton retour au menu -->
+    <button class="btn btn--secondaire btn--pleine-largeur non-imprimable"
+            onclick="Routeur.allerVers('menu')"
+            style="margin-top:10px">
+      ← Retour au menu
+    </button>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     PAGE 3 : TICKET — Bon de commande imprimable
+     Ce bon est présenté au guichet pour être servi
+     ══════════════════════════════════════════════════════════════ -->
+<div id="page-ticket" class="page" aria-label="Bon de commande">
+  <div class="zone-ticket">
+
+    <div class="ticket" role="article" aria-label="Votre bon de commande">
+
+      <!-- En-tête vert du ticket -->
+      <div class="ticket__entete">
+        <span class="ticket__icone-succes">🎉</span>
+        <h2>Commande confirmée !</h2>
+        <p>Université de Ngaoundéré — Cantine Universitaire</p>
+      </div>
+
+      <!-- Corps du ticket -->
+      <div class="ticket__corps">
+
+        <!-- Référence unique de la commande -->
+        <div class="ticket__reference">
+          <div class="ticket__reference-numero" id="refCommande">—</div>
+          <div class="ticket__reference-libelle">
+            Référence de commande — Présentez ce bon au guichet de service
+          </div>
+        </div>
+
+        <!-- Informations du client -->
+        <div style="text-align:center;font-size:.82rem;color:var(--texte-discret);margin-bottom:14px">
+          <strong id="nomClientTicket" style="display:block;color:var(--texte-principal)"></strong>
+          <span id="dateCommande"></span>
+        </div>
+
+        <!-- Ligne matricule (masquée si non renseigné) -->
+        <div id="ligneMatricule" class="ticket__ligne" style="display:none">
+          <span>Matricule étudiant</span>
+          <span id="matriculeTicket" style="font-family:monospace"></span>
+        </div>
+
+        <!--
+          QR CODE DE VÉRIFICATION
+          Généré par PageTicket._genererQRCode() sur le canvas
+          Permet au caissier de scanner pour vérifier l'authenticité
+        -->
+        <div class="ticket__qr">
+          <canvas id="canvasQR"
+                  width="120" height="120"
+                  style="border-radius:8px;border:1px solid var(--bordure-legere)"
+                  aria-label="Code QR de vérification de la commande"></canvas>
+          <div style="font-size:.7rem;color:var(--texte-discret);margin-top:6px">
+            Code de vérification — à scanner par le caissier
+          </div>
+        </div>
+
+        <!-- Détail des articles commandés -->
+        <div id="lignesDetailTicket">
+          <!-- Injecté par PageTicket.afficher() -->
+        </div>
+
+        <!-- Total payé -->
+        <div class="ticket__total" id="totalTicket">
+          <!-- Injecté par PageTicket.afficher() -->
+        </div>
+
+      </div>
+
+      <!-- Pied du ticket avec instructions -->
+      <div class="ticket__pied">
+        <p>
+          ⏰ Présentez-vous dans les <strong>30 minutes</strong> suivant votre commande.<br>
+          Bon appétit ! 🍽️ Merci de votre confiance.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Boutons d'action sous le ticket -->
+    <button class="btn btn--principal btn--grand btn--pleine-largeur non-imprimable"
+            onclick="PageTicket.imprimer()"
+            style="margin-top:18px">
+      🖨️ Imprimer / Télécharger en PDF
+    </button>
+
+    <button class="btn btn--fantome btn--pleine-largeur non-imprimable"
+            onclick="PageTicket.nouvelleCommande()"
+            style="margin-top:10px">
+      🏠 Passer une nouvelle commande
+    </button>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     PAGE 4 : CONNEXION
+     Accès direct (anonyme/visiteur) ou connexion personnel (admin/caissier)
+     Les étudiants peuvent commander sans créer de compte
+     ══════════════════════════════════════════════════════════════ -->
+<div id="page-connexion" class="page" aria-label="Page de connexion">
+  <div class="zone-auth">
+    <div class="carte-auth">
+
+      <!-- Logo et titre -->
+      <div class="auth__logo">
+        <div class="auth__logo-image">
+          <!--
+            Logo université dans la page de connexion
+            Chargé depuis images/logo.png
+          -->
+          <img src="images/logo.png"
+               alt="Logo Université de Ngaoundéré"
+               onerror="this.style.display='none';
+                        this.nextElementSibling.style.display='flex'">
+          <span class="auth__logo-image-fallback"
+                style="display:none;font-size:2.2rem">🎓</span>
+        </div>
+        <h2>Espace Connexion</h2>
+        <p>Étudiant, visiteur ou personnel de la cantine</p>
+      </div>
+
+      <!-- Onglets Connexion / Inscription -->
+      <div class="onglets" style="margin-bottom:20px">
+        <button class="onglet onglet-auth actif"
+                data-tab="connexion"
+                onclick="PageAuthentification.basculerOnglet('connexion')">
+          Se connecter
+        </button>
+        <button class="onglet onglet-auth"
+                data-tab="inscription"
+                onclick="PageAuthentification.basculerOnglet('inscription')">
+          S'inscrire
+        </button>
+      </div>
+
+      <!-- Zone d'affichage des erreurs -->
+      <div id="zoneErreurAuth"
+           class="alerte"
+           style="display:none;margin-bottom:14px"
+           role="alert">
+      </div>
+
+      <!--
+        FORMULAIRE DE CONNEXION
+        Réservé au personnel (admin/caissier)
+        Les étudiants utilisent les boutons d'accès direct ci-dessous
+      -->
+      <div id="formulaireConnexion">
+        <div class="alerte alerte--info" style="margin-bottom:14px">
+          👨‍💼 <strong>Connexion réservée au personnel :</strong>
+          administrateurs et caissiers.<br>
+          <small>
+            Étudiants et visiteurs → utilisez les boutons ci-dessous
+            pour commander sans compte.
+          </small>
+        </div>
+
+        <div class="groupe-champ">
+          <label class="etiquette" for="champIdentifiant">Identifiant</label>
+          <input type="text"
+                 id="champIdentifiant"
+                 class="champ-saisie"
+                 placeholder="Exemple : admin ou caissier1"
+                 autocomplete="username">
+        </div>
+
+        <div class="groupe-champ">
+          <label class="etiquette" for="champMotdepasse">Mot de passe</label>
+          <input type="password"
+                 id="champMotdepasse"
+                 class="champ-saisie"
+                 placeholder="••••••••"
+                 autocomplete="current-password"
+                 onkeydown="if(event.key==='Enter') PageAuthentification.seConnecter()">
+        </div>
+
+        <button id="btnSeConnecter"
+                class="btn btn--principal btn--pleine-largeur"
+                onclick="PageAuthentification.seConnecter()"
+                style="margin-top:4px">
+          Se connecter
+        </button>
+
+        <div style="font-size:.73rem;color:var(--texte-discret);text-align:center;margin-top:8px">
+          💡 Identifiants de test : <code>admin / admin123</code>
+        </div>
+      </div>
+
+      <!--
+        FORMULAIRE D'INSCRIPTION
+        Pour créer un compte étudiant
+      -->
+      <div id="formulaireInscription" style="display:none">
+        <div class="grille-2-colonnes">
+          <div class="groupe-champ">
+            <label class="etiquette" for="champPrenom">Prénom *</label>
+            <input type="text"
+                   id="champPrenom"
+                   class="champ-saisie"
+                   placeholder="Votre prénom"
+                   autocomplete="given-name">
+          </div>
+          <div class="groupe-champ">
+            <label class="etiquette" for="champNom">Nom *</label>
+            <input type="text"
+                   id="champNom"
+                   class="champ-saisie"
+                   placeholder="Votre nom"
+                   autocomplete="family-name">
+          </div>
+        </div>
+
+        <div class="groupe-champ">
+          <label class="etiquette" for="champMatriculeInscription">
+            Matricule universitaire *
+          </label>
+          <input type="text"
+                 id="champMatriculeInscription"
+                 class="champ-saisie"
+                 placeholder="Exemple : 20G03456"
+                 maxlength="10"
+                 autocomplete="off"
+                 oninput="this.value = this.value.toUpperCase()">
+          <small class="aide-champ">
+            Format : 2 chiffres + 1 lettre majuscule + 5 chiffres
+          </small>
+        </div>
+
+        <div class="groupe-champ">
+          <label class="etiquette" for="champEmailInscription">
+            Email universitaire *
+          </label>
+          <input type="email"
+                 id="champEmailInscription"
+                 class="champ-saisie"
+                 placeholder="prenom.nom@univ-ndere.cm"
+                 autocomplete="email">
+        </div>
+
+        <div class="groupe-champ">
+          <label class="etiquette" for="champMdpInscription">
+            Mot de passe * (minimum 8 caractères)
+          </label>
+          <input type="password"
+                 id="champMdpInscription"
+                 class="champ-saisie"
+                 placeholder="Votre mot de passe"
+                 autocomplete="new-password">
+        </div>
+
+        <button id="btnSInscrire"
+                class="btn btn--principal btn--pleine-largeur"
+                onclick="PageAuthentification.sInscrire()"
+                style="margin-top:4px">
+          Créer mon compte
+        </button>
+      </div>
+
+      <!-- Séparateur visuel -->
+      <div class="separateur">ou commander directement sans compte</div>
+
+      <!--
+        ACCÈS DIRECT SANS COMPTE
+        Options pour étudiants et visiteurs
+      -->
+      <div style="display:grid;gap:8px">
+        <button class="btn btn--principal btn--pleine-largeur"
+                onclick="PageAuthentification.accesAnonyme()"
+                style="background:var(--gris-fonce);border-color:var(--gris-fonce)">
+          👻 Commander anonymement (sans aucune info)
+        </button>
+        <button class="btn-visiteur"
+                onclick="PageAuthentification.accesVisiteur()">
+          🙋 Continuer comme visiteur → (nom facultatif)
+        </button>
+      </div>
+
+      <!-- Boutons de navigation supplémentaires -->
+      <div style="text-align:center;margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn--fantome btn--petit"
+                onclick="Routeur.allerVers('menu')">
+          ← Retour au menu
+        </button>
+        <button class="btn btn--danger btn--petit"
+                id="btnSeDeconnecter"
+                onclick="PageAuthentification.seDeconnecter()"
+                style="display:none">
+          🚪 Se déconnecter
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     PAGE 5 : ADMINISTRATION
+     ACCÈS RÉSERVÉ AU PERSONNEL (admin / caissier)
+     Contient : statistiques, gestion du menu, tableau des commandes
+     ══════════════════════════════════════════════════════════════ -->
+<div id="page-admin" class="page" aria-label="Tableau de bord administration">
+  <div class="zone-admin">
+
+    <!-- Barre supérieure admin -->
+    <div class="admin__barre">
+      <div>
+        <div class="admin__barre-titre">⚙️ Tableau de bord — Cantine</div>
+        <div class="admin__barre-sous">
+          Université de Ngaoundéré · Gestion en temps réel
+        </div>
+      </div>
+      <!-- Boutons d'action rapide -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn-navbar"
+                onclick="Routeur.allerVers('verification')"
+                style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.3)">
+          🔍 Vérifier un bon
+        </button>
+        <button class="btn-navbar btn-navbar--plein"
+                onclick="Routeur.allerVers('menu')">
+          Voir le menu public ↗
+        </button>
+        <button class="btn-navbar btn-navbar--danger"
+                onclick="PageAuthentification.seDeconnecter()">
+          🚪 Déconnexion
+        </button>
+      </div>
+    </div>
+
+    <!--
+      TABLEAU 1 : STATISTIQUES DU JOUR
+      Cartes avec les chiffres clés de la journée
+    -->
+    <div class="admin__grille-stats" id="zoneStatistiques">
+      <!-- Injecté par PageAdmin.afficherStatistiques() -->
+    </div>
+
+    <!--
+      TABLEAU 2 : GESTION DU MENU
+      Permet de modifier la disponibilité et les prix des plats
+    -->
+    <h3 style="font-family:var(--police-titre);margin:0 0 12px;font-size:1.1rem">
+      Gestion du menu
+    </h3>
+    <div class="enveloppe-tableau" style="margin-bottom:28px">
+      <table class="tableau"
+             role="table"
+             aria-label="Tableau de gestion du menu">
+        <thead>
+          <tr>
+            <th scope="col">Plat</th>
+            <th scope="col">Catégorie</th>
+            <th scope="col">Prix</th>
+            <th scope="col">Disponibilité</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="corpsTableauMenu">
+          <!-- Injecté par PageAdmin.afficherTableauMenu() -->
+        </tbody>
+      </table>
+    </div>
+
+    <!--
+      TABLEAU 3 : COMMANDES REÇUES
+      Liste toutes les commandes enregistrées (stockées en localStorage)
+      Le caissier peut marquer les commandes comme "servies"
+    -->
+    <h3 style="font-family:var(--police-titre);margin:0 0 6px;font-size:1.1rem">
+      Commandes reçues — Bons de service
+    </h3>
+    <p style="font-size:.78rem;color:var(--texte-discret);margin-bottom:12px">
+      Les commandes sont sauvegardées localement (localStorage).
+      Un bon ne peut être servi qu'une seule fois.
+    </p>
+    <div class="enveloppe-tableau" style="margin-bottom:20px">
+      <table class="tableau"
+             role="table"
+             aria-label="Tableau des commandes reçues">
+        <thead>
+          <tr>
+            <th scope="col">Référence</th>
+            <th scope="col">Client</th>
+            <th scope="col">Montant</th>
+            <th scope="col">Paiement</th>
+            <th scope="col">Date et heure</th>
+            <th scope="col">Statut / Action</th>
+          </tr>
+        </thead>
+        <tbody id="corpsTableauCommandes">
+          <!-- Injecté par PageAdmin.afficherTableauCommandes() -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Actions supplémentaires -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn--principal"
+              onclick="alert('Formulaire d\'ajout de plat\n→ À connecter à votre backend')">
+        + Ajouter un plat au menu
+      </button>
+      <button class="btn btn--fantome"
+              onclick="PageAdmin.initialiser()">
+        🔄 Actualiser les données
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     PAGE 6 : VÉRIFICATION DES BONS
+     ACCÈS RÉSERVÉ AU PERSONNEL UNIQUEMENT
+     Permet de contrôler l'authenticité d'un bon avant de servir
+     Un même bon ne peut être utilisé qu'une seule fois
+     ══════════════════════════════════════════════════════════════ -->
+<div id="page-verification" class="page" aria-label="Vérification des bons de commande">
+  <div class="zone-verification">
+
+    <!-- Carte principale de vérification -->
+    <div class="carte">
+      <div class="carte__entete">
+        <span class="carte__entete-icone">🔍</span>
+        <span class="carte__entete-titre">Vérification du bon de commande</span>
+      </div>
+      <div class="carte__corps">
+
+        <!-- Avertissement : accès personnel uniquement -->
+        <div class="alerte alerte--info" style="margin-bottom:16px">
+          🔐 <strong>Page réservée au personnel de la cantine.</strong><br>
+          Vérifiez l'authenticité d'un bon avant de servir le client.
+          Un bon ne peut être présenté et servi qu'<strong>une seule fois</strong>.
+        </div>
+
+        <!-- Champ de saisie de la référence -->
+        <div class="groupe-champ">
+          <label class="etiquette" for="champReferenceVerif">
+            Référence du bon de commande
+          </label>
+          <input type="text"
+                 id="champReferenceVerif"
+                 class="champ-saisie"
+                 placeholder="Exemple : CMD-XXXXXX-XXXXXX"
+                 style="text-transform:uppercase;letter-spacing:1px;
+                        font-family:monospace;font-size:.9rem"
+                 oninput="this.value = this.value.toUpperCase()"
+                 onkeydown="if(event.key==='Enter') PageVerification.verifier()"
+                 aria-describedby="aideReferenceVerif">
+          <small class="aide-champ" id="aideReferenceVerif">
+            La référence s'affiche en grand sur le bon imprimé par le client
+          </small>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn--principal"
+                  onclick="PageVerification.verifier()"
+                  style="flex:1">
+            🔍 Vérifier ce bon
+          </button>
+          <button class="btn btn--fantome"
+                  onclick="PageVerification.simulerScanQR()"
+                  style="flex:1"
+                  title="Simule le scan du dernier ticket généré (test)">
+            📷 Simuler scan QR
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!--
+      Zone d'affichage du résultat de vérification
+      3 états possibles :
+        - Valide   : service autorisé + bouton "Marquer servi"
+        - Utilisé  : refus + date du premier service
+        - Invalide : référence inconnue
+    -->
+    <div id="zoneResultatVerification" aria-live="polite"></div>
+
+    <!-- Navigation -->
+    <div style="text-align:center;margin-top:20px">
+      <button class="btn btn--fantome btn--petit"
+              onclick="Routeur.allerVers('admin')">
+        ← Retour au tableau de bord
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<!--
+  ══════════════════════════════════════════════════════════════
+  SCRIPTS JAVASCRIPT
+  Chargés à la fin du body pour une meilleure performance
+  L'ordre de chargement est important !
+  ══════════════════════════════════════════════════════════════
+-->
+
+<!-- 1. Données de l'application (menu, étudiants, tickets...) -->
+<script src="js/donnees.js"></script>
+
+<!-- 2. État global, routeur, panier, utilitaires, sécurité -->
+<script src="js/application.js"></script>
+
+<!-- 3. Logique de toutes les pages -->
+<script src="js/pages.js"></script>
+
+</body>
+</html>
