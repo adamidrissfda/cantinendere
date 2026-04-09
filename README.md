@@ -7,7 +7,7 @@
  <img src="images/apercu.png" 
  width="320" alt="Interface Mobile Cantine de Ngaoundere">
 </p>
-## 🎓 Contexte Académique
+##  Contexte Académique
 Ce projet a été réalisé dans le cadre de l'unité d'enseignement **Ingénierie des Applications Web (INF336)** à l'Université de Ngaoundéré.
 
 * **Niveau :** Licence 3 Informatique (L3IN)
@@ -18,7 +18,7 @@ Ce projet a été réalisé dans le cadre de l'unité d'enseignement **Ingénier
 
 ## 🌍 Accès au Projet
 L'application est déployée et consultable en ligne ici : 
-🚀 **[Visiter la Cantine de Ngaoundéré](https://adamidrissfda.github.io/cantinendere/)**
+**[Visiter la Cantine de Ngaoundéré](https://adamidrissfda.github.io/cantinendere/)**
 
 ---
 
